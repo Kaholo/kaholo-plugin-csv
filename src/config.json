@@ -1,0 +1,32 @@
+{
+  "name": "CSV",
+  "type": "executer",
+  "exposeRoute": false,
+  "execProgram": "node",
+  "main": "app.js",
+  "version": "1.0.0",
+  "methods": [
+    {
+      "name": "createCsv",
+      "viewName": "Create CSV",
+      "params": [
+        {
+          "name": "filePath",
+          "viewName": "File Path",
+          "type": "string"
+        },
+        {
+          "name": "headers",
+          "viewName": "Headers",
+          "type": "string"
+        },
+        {
+          "name": "data",
+          "viewName": "Values",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "imgUrl": "logo.png"
+}
