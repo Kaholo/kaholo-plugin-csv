@@ -4,26 +4,29 @@
   "exposeRoute": false,
   "execProgram": "node",
   "main": "app.js",
-  "version": "1.0.3",
+  "version": "1.1.1",
   "methods": [
     {
-      "name": "createCsv",
+      "name": "createCSV",
       "viewName": "Create CSV",
       "params": [
         {
           "name": "filePath",
+          "description": "Path to the file where it needs to be created, all directories should be present",
           "viewName": "File Path",
           "type": "string"
         },
         {
           "name": "headers",
+          "description": "Separate the headers with new line, or pass an array of strings(could be JSON). CSV file will have this amount of columns.",
           "viewName": "Headers",
-          "type": "string"
+          "type": "text"
         },
         {
           "name": "data",
+          "description": "Separate the values with new line(only one row), or pass nested array of strings(could be JSON), where each array represents a row.",
           "viewName": "Values",
-          "type": "string"
+          "type": "text"
         }
       ]
     },
@@ -33,18 +36,21 @@
       "params": [
         {
           "name": "filePath",
+          "description": "Path to the file where it needs to be created, all directories should be present",
           "viewName": "File Path",
           "type": "string"
         },
         {
           "name": "headers",
+          "description": "Separate the headers with new line, or pass an array of strings(could be JSON). CSV file will have this amount of columns.",
           "viewName": "Headers",
-          "type": "string"
+          "type": "text"
         },
         {
           "name": "data",
+          "description": "Separate the values with new line(only one row), or pass nested array of strings(could be JSON), where each array represents a row.",
           "viewName": "Values",
-          "type": "string"
+          "type": "text"
         }
       ]
     }

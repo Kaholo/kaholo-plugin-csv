@@ -1,68 +1,48 @@
-var fs = require('fs');
-var os = require('os');
+const CSV = require('./csv-service');
+const parsers = require('./parsers');
 
-function _normalizeValue(value) {
-    return `"${value.replace(new RegExp('"', 'g'), '""')}"`
-}
+async function createCSV(action, settings) {
+    if (!action.params.filePath || !action.params.filePath.length)
+        throw "File path was not specified"
+    if (!action.params.headers || !action.params.headers.length)
+        throw "Headers were not specified";
 
-function createCsv(action) {
-    return new Promise((resolve, reject) => {
-        if (!action.params.headers || !action.params.headers.length)
-            return reject("No headers specified");
+    let headers = parsers.array(action.params.headers);
+    let rows = parsers.array(action.params.data);
+    let filePath = parsers.string(action.params.filePath);
 
-        var output = [];
-        var headersRow = action.params.headers.map(header => header.label);
-        output.push(headersRow.join());
-
-        action.params.data.forEach(dataRow => {
-            let row = [];
-            action.params.headers.forEach(header => {
-                row.push(_normalizeValue(dataRow[header.field]));
-            })
-            output.push(row.join());
-        });
-
-        fs.writeFile(action.params.filePath, output.join(os.EOL), function (err) {
-            if (err) return reject(err);
-
-            resolve({ success: true, path: action.params.filePath, headers: action.params.headers });
-        });
+    let result = await CSV.createFile({
+        filePath,
+        headers,
+        rowsData: rows
     })
+
+    return result;
 }
 
 
 function insertRows(action) {
-    return new Promise((resolve, reject) => {
-        if (!action.params.headers || !action.params.headers.length)
-            return reject("No headers specified");
-        if (!action.params.data || !action.params.data.length)
-            return reject("No data specified");
+    if (!action.params.filePath || !action.params.filePath.length)
+        throw "File path was not specified"
+    if (!action.params.headers || !action.params.headers.length)
+        throw "No headers specified";
+    if (!action.params.data || !action.params.data.length)
+        throw "No data specified";
 
-        var output = [];
+    let headers = parsers.array(action.params.headers);
+    let rows = parsers.array(action.params.data);
+    let filePath = parsers.string(action.params.filePath);
 
-        action.params.data.forEach(dataRow => {
-            let row = [];
-            action.params.headers.forEach(header => {
-                row.push(_normalizeValue(dataRow[header.field]));
-            })
-            output.push(row.join());
-        });
-
-        let writer = fs.createWriteStream(action.params.filePath, {
-            flags: 'a'
-        });
-
-        writer.write(output.join(os.EOL), function (err) {
-            if (err) return reject(err);
-
-            resolve({ success: true, path: action.params.filePath });
-        });
-
-        writer.close();
+    let result = await CSV.insertRows({
+        filePath,
+        headers,
+        rowsData: rows
     })
+
+    return result;
 }
 
 module.exports = {
-    createCsv: createCsv,
+    createCSV,
     insertRows
 };
