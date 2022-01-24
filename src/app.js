@@ -1,37 +1,27 @@
-var fs = require('fs');
-var os = require('os');
+const CSV = require('./csv-service');
+const parsers = require('./parsers');
 
-function _normalizeValue(value){
-    return `"${value.replace(new RegExp('"', 'g'), '""')}"`
-}
+async function createCSV(action, settings) {
+    if (!action.params.filePath || !action.params.filePath.length)
+        throw "File path was not specified"
+    if (!action.params.headers || !action.params.headers.length)
+        throw "Headers were not specified";
+    if (!action.params.data || !action.params.data.length)
+        throw "Data was not specified";
+    
+    let headers = parsers.array(action.params.headers);
+    let rows = parsers.array(action.params.data);
+    let filePath = parsers.string(action.params.filePath);
 
-function createCsv(action) {
-    return new Promise((resolve, reject) => {
-        if (!action.params.headers || !action.params.headers.length)
-            return reject("No headers specified");
-        if (!action.params.data || !action.params.data.length)
-            return reject("No data specified");
-
-        var output = [];
-        var headersRow = action.params.headers.map(header=>header.label);
-        output.push(headersRow.join());
-
-        action.params.data.forEach(dataRow => {
-            let row = [];
-            action.params.headers.forEach(header=>{
-                row.push(_normalizeValue(dataRow[header.field]));
-            })
-            output.push(row.join());
-        });
-
-        fs.writeFile(action.params.filePath, output.join(os.EOL),function(err){
-            if(err) return reject(err);
-            
-            resolve({success : true, path : action.params.filePath});
-        });
+    let result = await CSV.createFile({
+        filePath,
+        headers,
+        rowsData: rows
     })
+
+    return result;
 }
 
 module.exports = {
-    createCsv: createCsv
+    createCSV
 };
