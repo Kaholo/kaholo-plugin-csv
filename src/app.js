@@ -21,7 +21,7 @@ async function createCSV(action, settings) {
 }
 
 
-function insertRows(action) {
+async function insertRows(action) {
     if (!action.params.filePath || !action.params.filePath.length)
         throw "File path was not specified"
     if (!action.params.headers || !action.params.headers.length)
