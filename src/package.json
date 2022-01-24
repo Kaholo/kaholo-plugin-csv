@@ -1,6 +1,6 @@
 {
   "name": "kaholo-plugin-csv",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "CSV plugin for Kaholo",
   "main": "app.js",
   "scripts": {
