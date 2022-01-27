@@ -12,19 +12,19 @@
       "params": [
         {
           "name": "filePath",
-          "description": "Enter the file path where you want to create the CSV file. All directories should be present.",
+          "description": "Enter the absolute file path where you want to create the CSV file. All directories should be present.",
           "viewName": "File Path",
           "type": "string"
         },
         {
           "name": "headers",
-          "description": "When adding the headers, separate them with a new line or pass an array of strings in JSON format. Each header represents a column in the CSV file.",
+          "description": "When adding the headers, separate them with a new line or pass an array of strings(could be JSON). Each header represents a column in the CSV file.",
           "viewName": "Headers",
           "type": "text"
         },
         {
           "name": "data",
-          "description": "When entering the data, separate the values with a new line (only one row), or pass a nested array of strings in JSON format, where each array represents a row in the CSV file.",
+          "description": "Expects array of objects in format {propertyName: value}, where propertyName is column name(one of header strings which were provided in the previous param).",
           "viewName": "Values",
           "type": "text"
         }
@@ -42,13 +42,13 @@
         },
         {
           "name": "headers",
-          "description": "Separate the headers with new line, or pass an array of strings(could be JSON). CSV file will have this amount of columns.",
+          "description": "Separate the headers with new line, or pass an array of strings(could be JSON). Should repeat the initial columns(left to right) which are present in the appending CSV file.",
           "viewName": "Headers",
           "type": "text"
         },
         {
           "name": "data",
-          "description": "Separate the values with new line(only one row), or pass nested array of strings(could be JSON), where each array represents a row.",
+          "description": "Expects array of objects in format {propertyName: value}, where propertyName is column name(one of header strings which were provided in the previous param).",
           "viewName": "Values",
           "type": "text"
         }
