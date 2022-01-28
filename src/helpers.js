@@ -1,7 +1,8 @@
 const fs = require('fs');
 
 function _normalizeValue(value) {
-    return `"${value.replace(new RegExp('"', 'g'), '""')}"`
+    let valueStr = value.toString();
+    return `"${valueStr.replace(new RegExp('"', 'g'), '""')}"`
 }
 
 /**
