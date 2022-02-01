@@ -4,10 +4,8 @@ const parsers = require('./parsers');
 async function createCSV(action, settings) {
     if (!action.params.filePath || !action.params.filePath.length)
         throw "File path was not specified";
-    if (!action.params.headers || !action.params.headers.length)
-        throw "No headers specified";
-    if (!action.params.headers || !action.params.headers.length)
-        throw "Headers were not specified";
+    if (!action.params.data)
+        throw "No data specified";
 
     let headers = parsers.array(action.params.headers);
     let rows = parsers.array(action.params.data);
@@ -26,8 +24,6 @@ async function createCSV(action, settings) {
 async function insertRows(action) {
     if (!action.params.filePath || !action.params.filePath.length)
         throw "File path was not specified"
-    if (!action.params.headers || !action.params.headers.length)
-        throw "No headers specified";
     if (!action.params.data || !action.params.data.length)
         throw "No data specified";
 

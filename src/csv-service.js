@@ -1,6 +1,5 @@
-const fs = require('fs').promises;
 const os = require('os');
-const { _buildOutput } = require('./helpers');
+const { _buildOutput, _writeToAFile } = require('./helpers');
 
 module.exports = class CSV {
 
@@ -9,11 +8,11 @@ module.exports = class CSV {
 
         output.push(headers.join());
 
-        _buildOutput(output, rowsData, headers.length);
+        _buildOutput(output, rowsData, headers);
 
         try {
-            await fs.writeFile(filePath, output.join(os.EOL));
-            return { success: true, path: filePath, headers };
+            let result = await _writeToAFile(filePath, output.join(os.EOL) + os.EOL);
+            return result
         } catch (error) {
             throw error
         }
@@ -22,18 +21,11 @@ module.exports = class CSV {
     static async insertRows({ filePath, headers, rowsData }) {
         let output = [];
 
-        _buildOutput(output, rowsData, headers.length);
+        _buildOutput(output, rowsData, headers);
 
         try {
-            const writer = fs.createWriteStream(filePath, {
-                flags: 'a'
-            });
-
-            writer.write(output.join(os.EOL));
-
-            writer.close();
-
-            return { success: true, path: filePath, headers };
+            let result = await _writeToAFile(filePath, output.join(os.EOL) + os.EOL, true);
+            return result
         } catch (error) {
             throw error
         }
