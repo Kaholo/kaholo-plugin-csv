@@ -1,10 +1,19 @@
 {
   "name": "CSV",
+  "viewName": "CSV",
   "type": "executer",
   "exposeRoute": false,
   "execProgram": "node",
   "main": "app.js",
   "version": "1.1.2",
+  "keywords": [
+    "text",
+    "doc",
+    "edit",
+    "format",
+    "csv",
+    "file"
+   ],
   "methods": [
     {
       "name": "createCSV",
@@ -18,13 +27,13 @@
         },
         {
           "name": "headers",
-          "description": "When adding the headers, separate them with a new line or pass an array of strings(could be JSON). Each header represents a column in the CSV file.",
+          "description": "When adding the headers, separate them with a new line or pass an array of strings (could be JSON). Each header represents a column in the CSV file.",
           "viewName": "Headers",
           "type": "text"
         },
         {
           "name": "data",
-          "description": "Expects array of objects in format {propertyName: value}, where propertyName is column name(one of header strings which were provided in the previous param).",
+          "description": "Expects array of objects in format {propertyName: value}, where propertyName is column name (one of the header strings provided in the previous parameter).",
           "viewName": "Values",
           "type": "text"
         }
@@ -36,19 +45,19 @@
       "params": [
         {
           "name": "filePath",
-          "description": "Path to the file where it needs to be created, all directories should be present",
+          "description": "Enter the absolute file path of the CSV file to insert rows into. All directories should be present.",
           "viewName": "File Path",
           "type": "string"
         },
         {
           "name": "headers",
-          "description": "Separate the headers with new line, or pass an array of strings(could be JSON). Should repeat the initial columns(left to right) which are present in the appending CSV file.",
+          "description": "Separate the headers with new line, or pass an array of strings (could be JSON). Should repeat the initial columns (left to right) which are present in the appending CSV file.",
           "viewName": "Headers",
           "type": "text"
         },
         {
           "name": "data",
-          "description": "Expects array of objects in format {propertyName: value}, where propertyName is column name(one of header strings which were provided in the previous param).",
+          "description": "Expects array of objects in format {propertyName: value}, where propertyName is column name (one of the header strings provided in the previous parameter).",
           "viewName": "Values",
           "type": "text"
         }
