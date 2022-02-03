@@ -12,6 +12,7 @@
     "edit",
     "format",
     "csv",
+    "excel",
     "file"
    ],
   "methods": [
