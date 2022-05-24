@@ -1,5 +1,6 @@
 const os = require("os");
 const _ = require("lodash");
+const { readFile } = require("fs/promises");
 
 const SEPARATOR = ",";
 
@@ -13,6 +14,15 @@ function assertHeadersCompatibility(fileHeaders, userHeaders) {
       throw new Error(`Header ${JSON.stringify(correctHeader)} in CSV file does not match passed header ${JSON.stringify(userHeaders[index])}. CSV file headers: ${fileHeaders.join(SEPARATOR)}.`);
     }
   });
+}
+
+async function getCsvFileHeaders(filePath) {
+  const csvFileContent = await readFile(filePath);
+  return csvFileContent
+    .toString()
+    .split(os.EOL)
+    .shift()
+    .split(SEPARATOR);
 }
 
 function buildCsv(rowsData, headers = [], includeHeaders = true) {
@@ -78,5 +88,5 @@ function parseRowsData(rowsData) {
 module.exports = {
   buildCsv,
   assertHeadersCompatibility,
-  SEPARATOR,
+  getCsvFileHeaders,
 };

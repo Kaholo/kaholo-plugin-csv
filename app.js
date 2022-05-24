@@ -1,8 +1,6 @@
-const { readFile } = require("fs/promises");
 const path = require("path");
-const os = require("os");
 const kaholoPluginLibrary = require("kaholo-plugin-library");
-const { buildCsv, SEPARATOR, assertHeadersCompatibility } = require("./csv-service");
+const { buildCsv, assertHeadersCompatibility, getCsvFileHeaders } = require("./csv-service");
 const { assertPathExistence, writeToFile } = require("./helpers");
 
 async function createCSV({
@@ -25,12 +23,7 @@ async function insertRows({
 }) {
   await assertPathExistence(filePath);
 
-  const csvFileContent = await readFile(filePath);
-  const csvFileHeaders = csvFileContent
-    .toString()
-    .split(os.EOL)
-    .shift()
-    .split(SEPARATOR);
+  const csvFileHeaders = getCsvFileHeaders(filePath);
   assertHeadersCompatibility(csvFileHeaders, headers);
 
   const csvContent = buildCsv(rows, headers, false);
