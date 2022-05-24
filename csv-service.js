@@ -3,14 +3,14 @@ const _ = require("lodash");
 
 const SEPARATOR = ",";
 
-function assertHeadersCompatibility(correctHeaders, userHeaders) {
-  if (correctHeaders.length !== userHeaders.length) {
+function assertHeadersCompatibility(fileHeaders, userHeaders) {
+  if (fileHeaders.length !== userHeaders.length) {
     throw new Error("Passed headers must be the same length as headers in the file.");
   }
 
-  correctHeaders.forEach((correctHeader, index) => {
+  fileHeaders.forEach((correctHeader, index) => {
     if (correctHeader !== userHeaders[index]) {
-      throw new Error(`Header ${JSON.stringify(correctHeader)} in CSV file does not match passed header ${JSON.stringify(userHeaders[index])}. CSV file headers: ${correctHeaders.join(SEPARATOR)}.`);
+      throw new Error(`Header ${JSON.stringify(correctHeader)} in CSV file does not match passed header ${JSON.stringify(userHeaders[index])}. CSV file headers: ${fileHeaders.join(SEPARATOR)}.`);
     }
   });
 }
