@@ -1,46 +1,44 @@
-const CSV = require('./csv-service');
-const parsers = require('./parsers');
+const { readFile } = require("fs/promises");
+const path = require("path");
+const os = require("os");
+const kaholoPluginLibrary = require("kaholo-plugin-library");
+const { buildCsv, SEPARATOR, assertHeadersCompatibility } = require("./csv-service");
+const { assertPathExistence, writeToFile } = require("./helpers");
 
-async function createCSV(action, settings) {
-    if (!action.params.filePath || !action.params.filePath.length)
-        throw "File path was not specified";
-    if (!action.params.data)
-        throw "No data specified";
+async function createCSV({
+  headers,
+  data: rows,
+  filePath,
+}) {
+  const directoryName = path.dirname(filePath);
+  await assertPathExistence(directoryName);
 
-    let headers = parsers.array(action.params.headers);
-    let rows = parsers.array(action.params.data);
-    let filePath = parsers.string(action.params.filePath);
+  const csvContent = buildCsv(rows, headers);
 
-    let result = await CSV.createFile({
-        filePath,
-        headers,
-        rowsData: rows
-    })
-
-    return result;
+  return writeToFile(filePath, csvContent);
 }
 
+async function insertRows({
+  headers,
+  data: rows,
+  filePath,
+}) {
+  await assertPathExistence(filePath);
 
-async function insertRows(action) {
-    if (!action.params.filePath || !action.params.filePath.length)
-        throw "File path was not specified"
-    if (!action.params.data || !action.params.data.length)
-        throw "No data specified";
+  const csvFileContent = await readFile(filePath);
+  const csvFileHeaders = csvFileContent
+    .toString()
+    .split(os.EOL)
+    .shift()
+    .split(SEPARATOR);
+  assertHeadersCompatibility(csvFileHeaders, headers);
 
-    let headers = parsers.array(action.params.headers);
-    let rows = parsers.array(action.params.data);
-    let filePath = parsers.string(action.params.filePath);
+  const csvContent = buildCsv(rows, headers, false);
 
-    let result = await CSV.insertRows({
-        filePath,
-        headers,
-        rowsData: rows
-    })
-
-    return result;
+  return writeToFile(filePath, csvContent, true);
 }
 
-module.exports = {
-    createCSV,
-    insertRows
-};
+module.exports = kaholoPluginLibrary.bootstrap({
+  createCSV,
+  insertRows,
+});
