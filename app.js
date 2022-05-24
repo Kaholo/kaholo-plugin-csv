@@ -23,7 +23,7 @@ async function insertRows({
 }) {
   await assertPathExistence(filePath);
 
-  const csvFileHeaders = getCsvFileHeaders(filePath);
+  const csvFileHeaders = await getCsvFileHeaders(filePath);
   assertHeadersCompatibility(csvFileHeaders, headers);
 
   const csvContent = buildCsv(rows, headers, false);

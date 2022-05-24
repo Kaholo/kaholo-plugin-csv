@@ -57,15 +57,18 @@ function parseRowsData(rowsData) {
   }
 
   if (_.isString(rowsData)) {
+    let parsedRowsData;
+
     try {
-      const parsedRowsData = JSON.parse(rowsData);
-      if (_.isPlainObject(parsedRowsData)) {
-        parsedRows.push(parsedRowsData);
-      } else if (_.isArray(parsedRowsData)) {
-        parsedRows.push(...parsedRowsData);
-      }
+      parsedRowsData = JSON.parse(rowsData);
       // eslint-disable-next-line no-empty
     } catch {}
+
+    if (_.isPlainObject(parsedRowsData)) {
+      parsedRows.push(parsedRowsData);
+    } else if (_.isArray(parsedRowsData)) {
+      parsedRows.push(...parsedRowsData);
+    }
   }
 
   if (_.isPlainObject(rowsData)) {
