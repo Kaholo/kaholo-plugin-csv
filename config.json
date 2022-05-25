@@ -1,0 +1,79 @@
+{
+  "name": "CSV",
+  "viewName": "CSV",
+  "type": "executer",
+  "exposeRoute": false,
+  "execProgram": "node",
+  "main": "app.js",
+  "version": "1.2.0",
+  "keywords": [
+    "text",
+    "doc",
+    "edit",
+    "format",
+    "csv",
+    "excel",
+    "file"
+   ],
+  "methods": [
+    {
+      "name": "createCSV",
+      "viewName": "Create CSV",
+      "params": [
+        {
+          "name": "filePath",
+          "viewName": "File Path",
+          "description": "Enter the absolute file path where you want to create the CSV file. All directories should be present.",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "headers",
+          "viewName": "Headers",
+          "description": "When adding the headers, separate them with a new line or pass an array of strings (could be JSON). Each header represents a column in the CSV file.",
+          "parserType": "array",
+          "type": "text"
+        },
+        {
+          "name": "data",
+          "viewName": "Values",
+          "description": "Expects array of objects in format {propertyName: value}, where propertyName is column name (one of the header strings provided in the previous parameter).",
+          "type": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "insertRows",
+      "viewName": "Insert Rows",
+      "params": [
+        {
+          "name": "filePath",
+          "viewName": "File Path",
+          "description": "Enter the absolute file path of the CSV file to insert rows into. All directories should be present.",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "headers",
+          "viewName": "Headers",
+          "description": "Separate the headers with new line, or pass an array of strings (could be JSON). Should repeat the initial columns (left to right) which are present in the appending CSV file.",
+          "parserType": "array",
+          "type": "text"
+        },
+        {
+          "name": "data",
+          "viewName": "Values",
+          "description": "Expects array of objects in format {propertyName: value}, where propertyName is column name (one of the header strings provided in the previous parameter).",
+          "type": "text",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "imgUrl": "logo.png",
+  "category": [
+    "FILES",
+    "CORE"
+  ]
+}
