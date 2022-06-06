@@ -5,7 +5,11 @@
   "exposeRoute": false,
   "execProgram": "node",
   "main": "app.js",
-  "version": "1.2.0",
+  "version": "1.2.1",
+  "imgUrl": "logo.png",
+  "category": [
+    "Basic Tools"
+  ],
   "keywords": [
     "text",
     "doc",
@@ -70,10 +74,5 @@
         }
       ]
     }
-  ],
-  "imgUrl": "logo.png",
-  "category": [
-    "FILES",
-    "CORE"
   ]
 }
