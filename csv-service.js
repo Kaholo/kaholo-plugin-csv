@@ -16,13 +16,49 @@ function assertHeadersCompatibility(fileHeaders, userHeaders) {
   });
 }
 
-async function getCsvFileHeaders(filePath) {
+async function getCsvFileHeaders(filePath, split = true) {
   const csvFileContent = await readFile(filePath);
-  return csvFileContent
+  const headersRow = csvFileContent
     .toString()
     .split(os.EOL)
-    .shift()
-    .split(SEPARATOR);
+    .shift();
+  return split ? headersRow.split(SEPARATOR) : headersRow;
+}
+
+function buildCsvFromRawCsvRow(rawRowValues, rawHeaders = "", includeHeaders = true) {
+  const csvOutputRows = [];
+
+  if (rawHeaders) {
+    const parsedCsvHeaders = parseRawCsvInput(rawHeaders, !rawHeaders.includes("\n"));
+    const parsedCsvRow = parseRawCsvInput(rawRowValues, false);
+
+    if (parsedCsvHeaders.length !== parsedCsvRow.length) {
+      throw new Error(`Invalid length of Row Values for Headers: ${parsedCsvHeaders.join(SEPARATOR)}`);
+    }
+
+    if (includeHeaders) {
+      csvOutputRows.push(parsedCsvHeaders.join(SEPARATOR));
+    }
+  }
+  csvOutputRows.push(parseRawCsvInput(rawRowValues, false).join(SEPARATOR));
+
+  return csvOutputRows.join(os.EOL);
+}
+
+// If useOneSeparator is false then new line character
+// is being treated as a separator alongside with comma.
+// If it is true then only comma or new line character
+// is being treated as a separator, e.g.:
+// (useOneSeparator=true): a,b,c\nd,e => ["a,b,c", "d,e"]
+// (useOneSeparator=false): a,b,c\nd,e => ["a", "b", "c", "d", "e"]
+// This parameter is required due to different parsing strategy
+// for csv rows and headers described in KP-773:
+// https://kaholo.atlassian.net/browse/KP-773
+function parseRawCsvInput(rawInput, useOneSeparator = true) {
+  const inputSeparator = rawInput.includes("\n") ? "\n" : ",";
+  return rawInput
+    .split(useOneSeparator ? inputSeparator : /(?:,?\s*\n|,)/)
+    .map((csvValue) => csvValue.trim());
 }
 
 function buildCsv(rowsData, headers = [], includeHeaders = true) {
@@ -90,6 +126,7 @@ function parseRowsData(rowsData) {
 
 module.exports = {
   buildCsv,
+  buildCsvFromRawCsvRow,
   assertHeadersCompatibility,
   getCsvFileHeaders,
 };
