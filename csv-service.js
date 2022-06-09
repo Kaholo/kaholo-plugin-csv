@@ -45,19 +45,9 @@ function buildCsvFromRawCsvRow(rawRowValues, rawHeaders = "", includeHeaders = t
   return csvOutputRows.join(os.EOL);
 }
 
-// If useOneSeparator is false then new line character
-// is being treated as a separator alongside with comma.
-// If it is true then only comma or new line character
-// is being treated as a separator, e.g.:
-// (useOneSeparator=true): a,b,c\nd,e => ["a,b,c", "d,e"]
-// (useOneSeparator=false): a,b,c\nd,e => ["a", "b", "c", "d", "e"]
-// This parameter is required due to different parsing strategy
-// for csv rows and headers described in KP-773:
-// https://kaholo.atlassian.net/browse/KP-773
-function parseRawCsvInput(rawInput, useOneSeparator = true) {
-  const inputSeparator = rawInput.includes("\n") ? "\n" : ",";
+function parseRawCsvInput(rawInput) {
   return rawInput
-    .split(useOneSeparator ? inputSeparator : /(?:,?\s*\n|,)/)
+    .split(new RegExp(`(?:${SEPARATOR}?\\s*\n|${SEPARATOR})`))
     .map((csvValue) => csvValue.trim());
 }
 
