@@ -5,7 +5,7 @@
   "exposeRoute": false,
   "execProgram": "node",
   "main": "app.js",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "imgUrl": "logo.png",
   "category": [
     "Basic Tools"
@@ -22,7 +22,7 @@
   "methods": [
     {
       "name": "createCSV",
-      "viewName": "Create CSV",
+      "viewName": "Create CSV (JSON)",
       "params": [
         {
           "name": "filePath",
@@ -49,7 +49,7 @@
     },
     {
       "name": "insertRows",
-      "viewName": "Insert Rows",
+      "viewName": "Insert Rows (JSON)",
       "params": [
         {
           "name": "filePath",
@@ -70,6 +70,56 @@
           "viewName": "Values",
           "description": "Expects array of objects in format {propertyName: value}, where propertyName is column name (one of the header strings provided in the previous parameter).",
           "type": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "createCsvFromCsvRow",
+      "viewName": "Create CSV (CSV)",
+      "params": [
+        {
+          "name": "filePath",
+          "viewName": "File Path",
+          "description": "Enter the absolute file path where you want to create the CSV file. All directories should be present.",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "headers",
+          "viewName": "Headers",
+          "description": "Headers list, one per line or separated by comma.",
+          "parserType": "string",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "rowValues",
+          "viewName": "Row Values",
+          "description": "CSV values separated by comma or by new line.",
+          "type": "text",
+          "parserType": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "insertCsvRow",
+      "viewName": "Insert Row (CSV)",
+      "params": [
+        {
+          "name": "filePath",
+          "viewName": "File Path",
+          "description": "Enter the absolute file path of the CSV file to insert rows into. All directories should be present.",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "rowValues",
+          "viewName": "Row Values",
+          "description": "CSV values separated by comma or by new line.",
+          "type": "text",
+          "parserType": "string",
           "required": true
         }
       ]

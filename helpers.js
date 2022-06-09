@@ -1,10 +1,23 @@
 const fs = require("fs");
-const { access, appendFile, writeFile } = require("fs/promises");
+const os = require("os");
+const {
+  access,
+  appendFile,
+  writeFile,
+  readFile,
+} = require("fs/promises");
 
 async function writeToFile(filePath, data, append = false) {
-  return (
-    append ? appendFile(filePath, data) : writeFile(filePath, data)
-  );
+  let settledData = data;
+  if (append) {
+    const fileContent = await readFile(filePath);
+    const stringFileContent = fileContent.toString();
+    settledData = stringFileContent[stringFileContent.length - 1] === os.EOL ? data : `\n${data}`;
+  }
+
+  return append
+    ? appendFile(filePath, settledData)
+    : writeFile(filePath, settledData);
 }
 
 async function assertPathExistence(path) {

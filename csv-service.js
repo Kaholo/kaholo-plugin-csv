@@ -16,13 +16,39 @@ function assertHeadersCompatibility(fileHeaders, userHeaders) {
   });
 }
 
-async function getCsvFileHeaders(filePath) {
+async function getCsvFileHeaders(filePath, split = true) {
   const csvFileContent = await readFile(filePath);
-  return csvFileContent
+  const headersRow = csvFileContent
     .toString()
     .split(os.EOL)
-    .shift()
-    .split(SEPARATOR);
+    .shift();
+  return split ? headersRow.split(SEPARATOR) : headersRow;
+}
+
+function buildCsvFromRawCsvRow(rawRowValues, rawHeaders = "", includeHeaders = true) {
+  const csvOutputRows = [];
+
+  if (rawHeaders) {
+    const parsedCsvHeaders = parseRawCsvInput(rawHeaders, !rawHeaders.includes("\n"));
+    const parsedCsvRow = parseRawCsvInput(rawRowValues, false);
+
+    if (parsedCsvHeaders.length !== parsedCsvRow.length) {
+      throw new Error(`Invalid length of Row Values for Headers: ${parsedCsvHeaders.join(SEPARATOR)}`);
+    }
+
+    if (includeHeaders) {
+      csvOutputRows.push(parsedCsvHeaders.join(SEPARATOR));
+    }
+  }
+  csvOutputRows.push(parseRawCsvInput(rawRowValues, false).join(SEPARATOR));
+
+  return csvOutputRows.join(os.EOL);
+}
+
+function parseRawCsvInput(rawInput) {
+  return rawInput
+    .split(new RegExp(`(?:${SEPARATOR}?\\s*\n|${SEPARATOR})`))
+    .map((csvValue) => csvValue.trim());
 }
 
 function buildCsv(rowsData, headers = [], includeHeaders = true) {
@@ -90,6 +116,7 @@ function parseRowsData(rowsData) {
 
 module.exports = {
   buildCsv,
+  buildCsvFromRawCsvRow,
   assertHeadersCompatibility,
   getCsvFileHeaders,
 };
