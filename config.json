@@ -43,6 +43,7 @@
           "viewName": "Values",
           "description": "Expects array of objects in format {propertyName: value}, where propertyName is column name (one of the header strings provided in the previous parameter).",
           "type": "text",
+          "parserType": "object",
           "required": true
         }
       ]
@@ -59,17 +60,11 @@
           "required": true
         },
         {
-          "name": "headers",
-          "viewName": "Headers",
-          "description": "Separate the headers with new line, or pass an array of strings (could be JSON). Should repeat the initial columns (left to right) which are present in the appending CSV file.",
-          "parserType": "array",
-          "type": "text"
-        },
-        {
           "name": "data",
           "viewName": "Values",
           "description": "Expects array of objects in format {propertyName: value}, where propertyName is column name (one of the header strings provided in the previous parameter).",
           "type": "text",
+          "parserType": "object",
           "required": true
         }
       ]

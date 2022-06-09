@@ -2,7 +2,6 @@ const path = require("path");
 const kaholoPluginLibrary = require("@kaholo/plugin-library");
 const {
   buildCsv,
-  assertHeadersCompatibility,
   getCsvFileHeaders,
   buildCsvFromRawCsvRow,
 } = require("./csv-service");
@@ -22,16 +21,13 @@ async function createCSV({
 }
 
 async function insertRows({
-  headers,
   data: rows,
   filePath,
 }) {
   await assertPathExistence(filePath);
 
   const csvFileHeaders = await getCsvFileHeaders(filePath);
-  assertHeadersCompatibility(csvFileHeaders, headers);
-
-  const csvContent = buildCsv(rows, headers, false);
+  const csvContent = buildCsv(rows, csvFileHeaders, false);
 
   return writeToFile(filePath, csvContent, true);
 }
