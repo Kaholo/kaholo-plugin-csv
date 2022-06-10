@@ -2,7 +2,7 @@
   "name": "CSV",
   "viewName": "CSV",
   "type": "executer",
-  "exposeRoute": false,
+  "description": "Creates and Edits Comma-separated Variable Files",
   "execProgram": "node",
   "main": "app.js",
   "version": "1.4.0",
