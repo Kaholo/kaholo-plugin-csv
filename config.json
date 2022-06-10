@@ -5,7 +5,7 @@
   "exposeRoute": false,
   "execProgram": "node",
   "main": "app.js",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "imgUrl": "logo.png",
   "category": [
     "Basic Tools"
@@ -59,16 +59,9 @@
           "required": true
         },
         {
-          "name": "headers",
-          "viewName": "Headers",
-          "description": "Separate the headers with new line, or pass an array of strings (could be JSON). Should repeat the initial columns (left to right) which are present in the appending CSV file.",
-          "parserType": "array",
-          "type": "text"
-        },
-        {
           "name": "data",
           "viewName": "Values",
-          "description": "Expects array of objects in format {propertyName: value}, where propertyName is column name (one of the header strings provided in the previous parameter).",
+          "description": "Expects array of objects in format {propertyName: value}, where propertyName is column name.",
           "type": "text",
           "required": true
         }
@@ -95,17 +88,16 @@
         },
         {
           "name": "rowValues",
-          "viewName": "Row Values",
-          "description": "CSV values separated by comma or by new line.",
+          "viewName": "Rows Values",
+          "description": "CSV values separated by comma, one row per line",
           "type": "text",
-          "parserType": "string",
           "required": true
         }
       ]
     },
     {
       "name": "insertCsvRow",
-      "viewName": "Insert Row (CSV)",
+      "viewName": "Insert Rows (CSV)",
       "params": [
         {
           "name": "filePath",
@@ -116,10 +108,9 @@
         },
         {
           "name": "rowValues",
-          "viewName": "Row Values",
-          "description": "CSV values separated by comma or by new line.",
+          "viewName": "Rows Values",
+          "description": "CSV values separated by comma, one row per line.",
           "type": "text",
-          "parserType": "string",
           "required": true
         }
       ]
