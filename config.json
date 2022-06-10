@@ -41,8 +41,9 @@
         {
           "name": "data",
           "viewName": "Values",
-          "description": "Expects array of objects in format {propertyName: value}, where propertyName is column name (one of the header strings provided in the previous parameter).",
+          "description": "Expects array of objects in format {propertyName: value}, where propertyName is header name (one of the header strings provided in the previous parameter).",
           "type": "text",
+          "parserType": "object",
           "required": true
         }
       ]
@@ -61,8 +62,9 @@
         {
           "name": "data",
           "viewName": "Values",
-          "description": "Expects array of objects in format {propertyName: value}, where propertyName is column name.",
+          "description": "Expects array of objects in format {propertyName: value}, where propertyName is header name.",
           "type": "text",
+          "parserType": "object",
           "required": true
         }
       ]
