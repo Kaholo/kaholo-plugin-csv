@@ -35,7 +35,16 @@ async function pathExists(path) {
   }
 }
 
+function logToActivityLog(message) {
+  // TODO: Change console.error to console.info
+  // Right now (Kaholo v4.1.2.1) console.info
+  // does not print messages to Activity Log
+  // Jira ticket: https://kaholo.atlassian.net/browse/KAH-3636
+  console.error(message);
+}
+
 module.exports = {
   writeToFile,
   assertPathExistence,
+  logToActivityLog,
 };

@@ -1,13 +1,13 @@
 const path = require("path");
 const kaholoPluginLibrary = require("@kaholo/plugin-library");
 const {
-  buildCsv,
-  getCsvFileHeaders,
-  buildCsvFromRawCsvRow,
+  buildCsvFromJson,
+  getCsvHeadersFromFile,
+  buildCsvFromRawCsv,
 } = require("./csv-service");
 const { assertPathExistence, writeToFile } = require("./helpers");
 
-async function createCSV({
+async function createCsvFromJson({
   headers,
   data: rows,
   filePath,
@@ -15,24 +15,24 @@ async function createCSV({
   const directoryPath = path.dirname(filePath);
   await assertPathExistence(directoryPath);
 
-  const csvContent = buildCsv(rows, headers);
+  const csvContent = buildCsvFromJson(rows, headers);
 
   return writeToFile(filePath, csvContent);
 }
 
-async function insertRows({
+async function insertRowsFromJson({
   data: rows,
   filePath,
 }) {
   await assertPathExistence(filePath);
 
-  const csvFileHeaders = await getCsvFileHeaders(filePath);
-  const csvContent = buildCsv(rows, csvFileHeaders, false);
+  const csvFileHeaders = await getCsvHeadersFromFile(filePath);
+  const csvContent = buildCsvFromJson(rows, csvFileHeaders, false);
 
   return writeToFile(filePath, csvContent, true);
 }
 
-async function createCsvFromCsvRow({
+async function createCsvFromRawCsv({
   filePath,
   headers,
   rowValues,
@@ -40,27 +40,26 @@ async function createCsvFromCsvRow({
   const directoryPath = path.dirname(filePath);
   await assertPathExistence(directoryPath);
 
-  const csvContent = buildCsvFromRawCsvRow(rowValues, headers);
+  const csvContent = buildCsvFromRawCsv(rowValues, headers);
 
   return writeToFile(filePath, csvContent);
 }
 
-async function insertCsvRow({
+async function insertRowsFromRawCsv({
   filePath,
   rowValues,
 }) {
   await assertPathExistence(filePath);
 
-  const csvFileHeaders = await getCsvFileHeaders(filePath, false);
-
-  const csvContent = buildCsvFromRawCsvRow(rowValues, csvFileHeaders, false);
+  const csvFileHeaders = await getCsvHeadersFromFile(filePath, false);
+  const csvContent = buildCsvFromRawCsv(rowValues, csvFileHeaders, false);
 
   return writeToFile(filePath, csvContent, true);
 }
 
 module.exports = kaholoPluginLibrary.bootstrap({
-  createCSV,
-  createCsvFromCsvRow,
-  insertRows,
-  insertCsvRow,
+  createCSV: createCsvFromJson,
+  insertRows: insertRowsFromJson,
+  createCsvFromCsvRow: createCsvFromRawCsv,
+  insertCsvRow: insertRowsFromRawCsv,
 });
