@@ -4,18 +4,6 @@ const { readFile } = require("fs/promises");
 
 const SEPARATOR = ",";
 
-function assertHeadersCompatibility(fileHeaders, userHeaders) {
-  if (fileHeaders.length !== userHeaders.length) {
-    throw new Error("Passed headers must be the same length as headers in the file.");
-  }
-
-  fileHeaders.forEach((correctHeader, index) => {
-    if (correctHeader !== userHeaders[index]) {
-      throw new Error(`Header ${JSON.stringify(correctHeader)} in CSV file does not match passed header ${JSON.stringify(userHeaders[index])}. CSV file headers: ${fileHeaders.join(SEPARATOR)}.`);
-    }
-  });
-}
-
 async function getCsvFileHeaders(filePath, split = true) {
   const csvFileContent = await readFile(filePath);
   const headersRow = csvFileContent
@@ -117,6 +105,5 @@ function parseRowsData(rowsData) {
 module.exports = {
   buildCsv,
   buildCsvFromRawCsvRow,
-  assertHeadersCompatibility,
   getCsvFileHeaders,
 };
