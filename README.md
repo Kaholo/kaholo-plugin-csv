@@ -19,6 +19,8 @@ Headers:
 
     ["Date","Location","Temperature","Humidity"]
 
+Rows Values:
+
     [{"Date":"20220526","Location":"Bald Mountain","Temperature":16.2,"Humidity":65.1},{"Temperature":12.9, "Date":"20220527","Location":"Bald Mountain"},{"Location":"Cougar Hollow","Temp":33.1,"Pressure":758}]
 
 The benefit of this JSON format is that all data is matched precisely with the correct field, fields can be omitted or in the wrong order, yet integrity is ensured - they are included only if and where they match the header.
