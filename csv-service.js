@@ -36,12 +36,15 @@ function buildCsvFromRawCsv(rawRowValues, rawHeaders = "", includeHeaders = true
 
 function buildCsvFromJson(rowsData, headers = [], includeHeaders = true) {
   const csvOutputRows = [];
-
-  if (headers.length > 0 && includeHeaders) {
-    csvOutputRows.push(headers.join(SEPARATOR));
-  }
-
   const rowsArray = parseJsonCsvRows(rowsData);
+
+  if (includeHeaders) {
+    if (headers.length > 0) {
+      csvOutputRows.push(headers.join(SEPARATOR));
+    } else {
+      csvOutputRows.push(Object.keys(rowsArray[0]).join(SEPARATOR));
+    }
+  }
 
   rowsArray.forEach((row) => {
     let rowText = "";
