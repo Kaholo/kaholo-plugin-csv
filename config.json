@@ -66,6 +66,13 @@
           "type": "text",
           "parserType": "object",
           "required": true
+        },
+        {
+          "name": "createFile",
+          "viewName": "Create File",
+          "description": "Create file if it does not already exist",
+          "type": "boolean",
+          "default": "false"
         }
       ]
     },
