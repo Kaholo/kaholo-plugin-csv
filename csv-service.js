@@ -38,23 +38,13 @@ function buildCsvFromJson(rowsData, headers = [], includeHeaders = true) {
   const csvOutputRows = [];
   const rowsArray = parseJsonCsvRows(rowsData);
 
+  const resolvedHeaders = headers.length === 0 ? Object.keys(rowsArray[0]) : headers;
   if (includeHeaders) {
-    if (headers.length > 0) {
-      csvOutputRows.push(headers.join(SEPARATOR));
-    } else {
-      csvOutputRows.push(Object.keys(rowsArray[0]).join(SEPARATOR));
-    }
+    csvOutputRows.push(resolvedHeaders.join(SEPARATOR));
   }
 
   rowsArray.forEach((row) => {
-    let rowText = "";
-
-    if (headers.length > 0) {
-      rowText = headers.map((headerName) => row[headerName] ?? "").join(SEPARATOR);
-    } else {
-      rowText = Object.values(row).join(SEPARATOR);
-    }
-
+    const rowText = resolvedHeaders.map((headerName) => row[headerName] ?? "").join(SEPARATOR);
     csvOutputRows.push(rowText);
   });
 
