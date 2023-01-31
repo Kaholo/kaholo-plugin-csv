@@ -66,7 +66,8 @@ function parseCsvInput(rawInput, multiline = false) {
     .split(multiline ? "\n" : new RegExp(`(?:${SEPARATOR}?\\s*\n|${SEPARATOR})`))
     .map((csvValue) => csvValue.trim());
 
-  return multiline ? splitCsvInput.map((line) => line.split(SEPARATOR)) : splitCsvInput;
+  const separatorRegex = new RegExp(`${SEPARATOR} ?`);
+  return multiline ? splitCsvInput.map((line) => line.split(separatorRegex)) : splitCsvInput;
 }
 
 function parseJsonCsvRows(rowsData) {
