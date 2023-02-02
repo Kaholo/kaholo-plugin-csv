@@ -31,7 +31,7 @@ function buildCsvFromRawCsv(rawRowValues, rawHeaders = "", includeHeaders = true
     outputCsvRows.push(settledCsvRow.join(SEPARATOR));
   });
 
-  return outputCsvRows.join(os.EOL);
+  return outputCsvRows.join(os.EOL) + os.EOL;
 }
 
 function buildCsvFromJson(rowsData, headers = [], includeHeaders = true) {
