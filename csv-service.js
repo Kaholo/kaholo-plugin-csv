@@ -31,7 +31,7 @@ function buildCsvFromRawCsv(rawRowValues, rawHeaders = "", includeHeaders = true
     outputCsvRows.push(settledCsvRow.join(SEPARATOR));
   });
 
-  return outputCsvRows.join(os.EOL);
+  return outputCsvRows.join(os.EOL) + os.EOL;
 }
 
 function buildCsvFromJson(rowsData, headers = [], includeHeaders = true) {
@@ -53,7 +53,7 @@ function buildCsvFromJson(rowsData, headers = [], includeHeaders = true) {
 
 function parseCsvInput(rawInput, multiline = false) {
   const splitCsvInput = rawInput
-    .split(multiline ? "\n" : new RegExp(`(?:${SEPARATOR}?\\s*\n|${SEPARATOR})`))
+    .split(multiline ? os.EOL : new RegExp(`(?:${SEPARATOR}?\\s*${os.EOL}|${SEPARATOR})`))
     .map((csvValue) => csvValue.trim());
 
   const separatorRegex = new RegExp(`${SEPARATOR} ?`);

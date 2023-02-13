@@ -12,7 +12,7 @@ async function writeToFile(filePath, data, append = false) {
   if (append) {
     const fileContent = await readFile(filePath);
     const stringFileContent = fileContent.toString();
-    settledData = stringFileContent[stringFileContent.length - 1] === os.EOL ? data : `\n${data}`;
+    settledData = stringFileContent[stringFileContent.length - 1] === os.EOL ? data : `${os.EOL}${data}`;
   }
 
   return append
