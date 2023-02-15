@@ -23,7 +23,19 @@ async function createCsvFromJson({
 async function insertRowsFromJson({
   data: rows,
   filePath,
+  createFile,
 }) {
+  if (createFile) {
+    try {
+      await assertPathExistence(filePath);
+    } catch {
+      const createResult = await createCsvFromJson({
+        data: rows,
+        filePath,
+      });
+      return createResult;
+    }
+  }
   await assertPathExistence(filePath);
 
   const csvFileHeaders = await getCsvHeadersFromFile(filePath);

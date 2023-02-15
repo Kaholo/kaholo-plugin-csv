@@ -31,27 +31,20 @@ function buildCsvFromRawCsv(rawRowValues, rawHeaders = "", includeHeaders = true
     outputCsvRows.push(settledCsvRow.join(SEPARATOR));
   });
 
-  return outputCsvRows.join(os.EOL);
+  return outputCsvRows.join(os.EOL) + os.EOL;
 }
 
 function buildCsvFromJson(rowsData, headers = [], includeHeaders = true) {
   const csvOutputRows = [];
-
-  if (headers.length > 0 && includeHeaders) {
-    csvOutputRows.push(headers.join(SEPARATOR));
-  }
-
   const rowsArray = parseJsonCsvRows(rowsData);
 
+  const resolvedHeaders = headers.length === 0 ? Object.keys(rowsArray[0]) : headers;
+  if (includeHeaders) {
+    csvOutputRows.push(resolvedHeaders.join(SEPARATOR));
+  }
+
   rowsArray.forEach((row) => {
-    let rowText = "";
-
-    if (headers.length > 0) {
-      rowText = headers.map((headerName) => row[headerName] ?? "").join(SEPARATOR);
-    } else {
-      rowText = Object.values(row).join(SEPARATOR);
-    }
-
+    const rowText = resolvedHeaders.map((headerName) => row[headerName] ?? "").join(SEPARATOR);
     csvOutputRows.push(rowText);
   });
 
@@ -60,10 +53,11 @@ function buildCsvFromJson(rowsData, headers = [], includeHeaders = true) {
 
 function parseCsvInput(rawInput, multiline = false) {
   const splitCsvInput = rawInput
-    .split(multiline ? "\n" : new RegExp(`(?:${SEPARATOR}?\\s*\n|${SEPARATOR})`))
+    .split(multiline ? os.EOL : new RegExp(`(?:${SEPARATOR}?\\s*${os.EOL}|${SEPARATOR})`))
     .map((csvValue) => csvValue.trim());
 
-  return multiline ? splitCsvInput.map((line) => line.split(SEPARATOR)) : splitCsvInput;
+  const separatorRegex = new RegExp(`${SEPARATOR} ?`);
+  return multiline ? splitCsvInput.map((line) => line.split(separatorRegex)) : splitCsvInput;
 }
 
 function parseJsonCsvRows(rowsData) {

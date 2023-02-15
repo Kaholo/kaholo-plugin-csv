@@ -5,7 +5,7 @@
   "description": "Creates and Edits Comma-separated Variable Files",
   "execProgram": "node",
   "main": "app.js",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "imgUrl": "logo.png",
   "category": [
     "Basic Tools"
@@ -66,6 +66,13 @@
           "type": "text",
           "parserType": "object",
           "required": true
+        },
+        {
+          "name": "createFile",
+          "viewName": "Create File",
+          "description": "Create file if it does not already exist",
+          "type": "boolean",
+          "default": "false"
         }
       ]
     },
